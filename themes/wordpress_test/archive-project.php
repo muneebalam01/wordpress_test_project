@@ -3,17 +3,17 @@
  <div class = "all_projects">
  <?php $paged = ( get_query_var('paged') ) ? get_query_var('paged') : 1;
 
- $product_args = array(
+ $project_args = array(
      'post_type' => 'project',
      'posts_per_page' => 3,
      'paged' => $paged,
      'page' => $paged
    );
 
- $product_query = new WP_Query( $product_args ); ?>
- <?php if ( $product_query->have_posts() ) : ?>
+ $project_query = new WP_Query( $project_args ); ?>
+ <?php if ( $project_query->have_posts() ) : ?>
   <div class = "all_new_projects_row">
-   <?php while ( $product_query->have_posts() ) : $product_query->the_post(); ?>
+   <?php while ( $project_query->have_posts() ) : $project_query->the_post(); ?>
    <div class = "inner_prjoect">
      <article class="loop">
        <h3><a href = "<?php the_permalink();?>"><?php the_title(); ?></a></h3>
@@ -26,7 +26,7 @@
             } 
                     }
         ?>
-        <p><a href = " <?php the_permalink();?> "> <?php the_post_thumbnail('medium'); ?></a> </p>
+        <p><a href = "<?php the_permalink();?> "> <?php the_post_thumbnail('medium'); ?></a> </p>
        <div class="content">
          <?php the_excerpt(); ?>
        </div>
@@ -36,7 +36,7 @@
    </div>
    <?php
       if (function_exists( 'custom_pagination' )) :
-         custom_pagination( $product_query->max_num_pages,"",$paged );
+         custom_pagination( $project_query->max_num_pages,"",$paged );
      endif;
     ?>
  <?php wp_reset_postdata(); ?>
@@ -44,4 +44,14 @@
    <p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
  <?php endif; ?>
   </div>
+  <div id = "myposts">
+  <?php if ( ! is_user_logged_in() ) { ?>
+    <h2 style = "text-align:center">Last 3 Projects to Not Loggedin User</h2>
+    <?php } 
+    else {
+     ?>
+     <h2 style = "text-align:center">Last 6 Projects to  Loggedin User</h2>
+     <?php }
+     ?>
+ </div>
 <?php get_footer();?>

@@ -142,12 +142,27 @@ function wordpress_test_scripts() {
 	wp_style_add_data( 'wordpress_test-style', 'rtl', 'replace' );
 
 	wp_enqueue_script( 'wordpress_test-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
-
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
 }
 add_action( 'wp_enqueue_scripts', 'wordpress_test_scripts' );
+
+
+function my_enqueue_ajax_script() {
+	wp_enqueue_script('wordpress_test_jquery' , 'https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js');
+	wp_enqueue_script( 'my-ajax-script', get_template_directory_uri() . '/js/script.js', array('jquery'), '1.0', true );
+   
+	// Localize the script with new data
+ $ajax_url = admin_url( 'admin-ajax.php' );
+  wp_localize_script( 'my-ajax-script', 'ajax_object', array( 'ajax_url' => $ajax_url ) );
+  }
+   
+  add_action( 'wp_enqueue_scripts', 'my_enqueue_ajax_script' );
+  
+
+
+
 
 /**
  * Implement the Custom Header feature.
@@ -293,5 +308,86 @@ function custom_pagination( $numpages = '', $pagerange = '', $paged='' ) {
       echo $paginate_links;
     echo "</nav>";
   }
+
+}
+
+if ( ! is_user_logged_in() ) { 
+add_action( 'wp_ajax_my_ajax_endpoint', 'my_ajax_function' );
+add_action( 'wp_ajax_nopriv_my_ajax_endpoint', 'my_ajax_function' );
+
+function my_ajax_function() {
+    $args = array(
+        'post_type'      => 'project',
+        'posts_per_page' => 3,
+        'orderby'        => 'date',
+        'order'          => 'DESC',
+		'tax_query'     => array(
+			array(
+			  'taxonomy' => 'projecttype', 
+			  'field' => 'slug',
+			  'terms' => array( 
+				'architecture',  
+			  )
+			)
+		  )	
+);
+    $query = new WP_Query( $args );
+    if ( $query->have_posts() ) { ?>
+		<div class = "all_new_projects_row">
+		<?php  while ( $query->have_posts() ) { ?>
+		<div class = "inner_prjoect">
+        <?php  $query->the_post();?>
+			<h3><?php the_title(); ?> </h3>
+		<?php the_content();  ?>
+		 </div>
+			<?php } ?> 
+		</div>
+		<?php wp_reset_postdata();  }
+     else {
+    }
+    wp_die();
+}
+}
+else {
+
+
+
+	add_action( 'wp_ajax_my_ajax_endpoint_loggedin', 'my_ajax_function_loggedin' );
+	add_action( 'wp_ajax_nopriv_my_ajax_endpoint_loggedin', 'my_ajax_function_loggedin' );
+	
+	function my_ajax_function_loggedin() {
+		$args = array(
+			'post_type'      => 'project',
+			'posts_per_page' => 6,
+			'orderby'        => 'date',
+			'order'          => 'DESC',
+			'tax_query'     => array(
+				array(
+				  'taxonomy' => 'projecttype', 
+				  'field' => 'slug',
+				  'terms' => array( 
+					'architecture',  
+				  )
+				)
+			  )	
+	);
+		$query = new WP_Query( $args );
+		if ( $query->have_posts() ) { ?>
+			<div class = "all_new_projects_row">
+			<?php  while ( $query->have_posts() ) { ?>
+			<div class = "inner_prjoect">
+			<?php  $query->the_post();?>
+				<h3><?php the_title(); ?> </h3>
+			<?php the_content();  ?>
+			 </div>
+				<?php } ?> 
+			</div>
+			<?php wp_reset_postdata();  }
+		 else {
+		}
+		wp_die();
+	}
+
+
 
 }
