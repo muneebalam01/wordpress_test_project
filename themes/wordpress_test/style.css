@@ -967,3 +967,12 @@ textarea {
 	margin-right: auto;
 	margin-bottom: 1.5em;
 }
+.all_new_projects_row {
+    display: flex;
+    text-align: center;
+}
+
+.inner_prjoect {
+    padding-right: 70px;
+    padding-left: 70px;
+}

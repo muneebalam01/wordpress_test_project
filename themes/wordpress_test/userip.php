@@ -1,7 +1,12 @@
 <?php /* Template Name: User Ip */ ?>
 
 <?php get_header(); ?>
-<?php $user_ip = $_SERVER['REMOTE_ADDR'];  
-   echo $user_ip;
+<?php
+
+//echo do_shortcode( '[show_ip]' );
+
+echo do_shortcode ('[my_ip_7729]');
+
+
 ?>
 <?php get_footer();?>
