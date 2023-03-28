@@ -22,5 +22,22 @@
     </ul>
 
 
+    <?php 
+    
+    function hs_give_me_coffee() {
+        $url = 'http://localhost/wordpress_test_project/wp-json';
+        $response = wp_remote_get( $url );
+        if( is_wp_error( $response ) ) {
+            return false;
+        }
+        $body = wp_remote_retrieve_body( $response );
+        $coffee_data = json_decode( $body );
+        return $coffee_data->file;
+    }
+    
+    
+    
+    ?>
+
 
 <?php get_footer() ?>
