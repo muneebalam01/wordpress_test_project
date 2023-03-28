@@ -2,7 +2,7 @@ jQuery(document).ready(function($) {
     $.ajax({
         url: '/wordpress_test_project/wp-admin/admin-ajax.php',
         type: 'POST',
-        dataType: "text", // add data type
+        dataType: "text",
         data: {
             action: 'my_ajax_endpoint'
         },
@@ -12,14 +12,13 @@ jQuery(document).ready(function($) {
             $('#myposts').append(response);
         },
         error: function(xhr, status, error) {
-            // Handle Ajax error case
             console.log(error);
         }
     });
     $.ajax({
         url: '/wordpress_test_project/wp-admin/admin-ajax.php',
         type: 'POST',
-        dataType: "text", // add data type
+        dataType: "text",
         data: {
             action: 'my_ajax_endpoint_loggedin'
         },
@@ -29,7 +28,6 @@ jQuery(document).ready(function($) {
             $('#myposts').append(response);
         },
         error: function(xhr, status, error) {
-            // Handle Ajax error case
             console.log(error);
         }
     });
