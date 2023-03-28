@@ -349,9 +349,6 @@ function my_ajax_function() {
 }
 }
 else {
-
-
-
 	add_action( 'wp_ajax_my_ajax_endpoint_loggedin', 'my_ajax_function_loggedin' );
 	add_action( 'wp_ajax_nopriv_my_ajax_endpoint_loggedin', 'my_ajax_function_loggedin' );
 	
@@ -387,7 +384,4 @@ else {
 		}
 		wp_die();
 	}
-
-
-
 }
