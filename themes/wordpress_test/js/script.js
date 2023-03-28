@@ -6,10 +6,8 @@ jQuery(document).ready(function($) {
         data: {
             action: 'my_ajax_endpoint'
         },
-        success: function(response) {
-            
+        success: function(response) { 
             $('#custom-posts-container').html(response);
-
             console.log(response);
             $('#myposts').append(response);
         },
@@ -18,9 +16,6 @@ jQuery(document).ready(function($) {
             console.log(error);
         }
     });
-
-
-
     $.ajax({
         url: '/wordpress_test_project/wp-admin/admin-ajax.php',
         type: 'POST',
@@ -29,9 +24,7 @@ jQuery(document).ready(function($) {
             action: 'my_ajax_endpoint_loggedin'
         },
         success: function(response) {
-            
             $('#custom-posts-container').html(response);
-
             console.log(response);
             $('#myposts').append(response);
         },
